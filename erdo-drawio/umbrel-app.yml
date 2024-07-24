@@ -1,0 +1,30 @@
+manifestVersion: 1
+id: erdo-drawio
+name: Drawio
+tagline: file
+icon: https://www.gravatar.com/avatar/faeb31d261caa0c629935dd0a8c984c6?s=120&r=g&d=404
+category: File
+version: "1.0.0"
+port: 8081
+description: >-
+  Add your app's description here.
+
+
+  You can also add newlines!
+
+developer: Umbrel
+website: https://umbrel.com
+submitter: Umbrel
+submission: https://github.com/getumbrel/umbrel-hello-world-app
+repo: https://github.com/getumbrel/umbrel-hello-world-app
+support: https://github.com/getumbrel/umbrel-hello-world-app/issues
+gallery:
+  - https://i.imgur.com/yyVG0Jb.jpeg
+  - https://i.imgur.com/yyVG0Jb.jpeg
+  - https://i.imgur.com/yyVG0Jb.jpeg
+releaseNotes: >-
+  Add what's new in the latest version of your app here.
+dependencies: []
+path: ""
+defaultUsername: ""
+defaultPassword: ""

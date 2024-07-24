@@ -1,0 +1,17 @@
+name: drawio
+services:
+    draw.io:
+        stdin_open: true
+        tty: true
+        container_name: draw
+        volumes:
+            - type: bind
+              source: '"$(pwd)"/PreConfig.js'
+              target: /usr/local/tomcat/webapps/draw/js/PreConfig.js
+            - type: bind
+              source: '"$(pwd)"/PostConfig.js'
+              target: /usr/local/tomcat/webapps/draw/js/PostConfig.js
+        ports:
+            - 8081:8080
+            - 8443:8443
+        image: fjudith/draw.io
