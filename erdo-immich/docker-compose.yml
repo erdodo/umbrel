@@ -113,13 +113,3 @@ services:
       - ${APP_DATA_DIR}/data/postgres:/var/lib/postgresql/data
     restart: on-failure
     container_name: immich_postgres_1
-
-  cloudflare-tunnel:
-    image: cloudflare/cloudflared:latest
-    container_name: cloudflare_tunnel
-    command: tunnel --no-autoupdate run <YOUR_TUNNEL_NAME>
-    volumes:
-      - ./cloudflare:/etc/cloudflared
-    environment:
-      TUNNEL_TOKEN: ${CF_TUNNEL_TOKEN}
-    restart: on-failure
