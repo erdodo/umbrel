@@ -1,0 +1,58 @@
+manifestVersion: 1.1
+id: immich
+category: files
+name: Immich
+version: "v1.112.1"
+tagline: High-performance photo and video backup solution
+description: >-
+  An open-source and high-performance self-hosted backup solution for the videos and photos on your mobile device
+
+  
+  ⚠️ Immich is under very active development. Expect bugs and changes. Do not use it as the only way to store your photos and videos!
+
+  
+  Features:
+  
+  - Upload and view videos and photos
+  
+  - Auto backup when the app is opened
+  
+  - Selective album(s) for backup
+  
+  - Download photos and videos to a local device
+  
+  - Multi-user support
+  
+  - Album and Shared albums
+  
+  - Scrubbable/draggable scrollbar
+  
+  - Support RAW (HEIC, HEIF, DNG, Apple ProRaw)
+releaseNotes: >-
+  ⚠️ As usual, please check that your mobile app is compatible with this release of Immich.
+
+
+  Welcome to version v1.112.1 of Immich. This release includes bug fixes and UI enhancements. Some of the key highlights include:
+    - Material color theming for the mobile app
+    - Open in map view on the web
+    - Star rating
+    - Screen stays on and auto darkens when performing a long session of foreground upload
+    - New search models with improved performance
+
+
+  Full release notes are found at https://github.com/immich-app/immich/releases
+developer: Alex Tran
+website: https://www.immich.app
+dependencies: []
+repo: https://github.com/immich-app/immich
+support: https://github.com/immich-app/immich/discussions
+port: 2283
+gallery:
+  - 1.jpg
+  - 2.jpg
+  - 3.jpg
+path: ""
+defaultUsername: ""
+defaultPassword: ""
+submitter: levma
+submission: https://github.com/getumbrel/umbrel-apps/pull/239
