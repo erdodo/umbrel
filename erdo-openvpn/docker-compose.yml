@@ -8,7 +8,7 @@ services:
     ports:
       - "943:943"
       - "443:443"
-      - "1194:1194/udp"
+      - "1194:1194"
     volumes:
       - /home/umbrel/custom/openvpn:/openvpn
     restart: unless-stopped
