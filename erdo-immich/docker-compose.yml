@@ -1,115 +1,66 @@
-version: '3.7'
-x-environment:
-  NODE_ENV: production
-  DB_HOSTNAME: immich_postgres_1
-  DB_USERNAME: immich
-  DB_PASSWORD: moneyprintergobrrr
-  DB_DATABASE_NAME: immich
-  REDIS_HOSTNAME: immich_redis_1
-  LOG_LEVEL: log
-  JWT_SECRET: ${APP_SEED}
-  DISABLE_REVERSE_GEOCODING: 'false'
-  REVERSE_GEOCODING_PRECISION: '3'
-  PUBLIC_LOGIN_PAGE_MESSAGE: ''
-  IMMICH_MACHINE_LEARNING_URL: http://immich_machine-learning_1:3003
-services:
-  app_proxy:
-    environment:
-      APP_HOST: immich_server_1
-      APP_PORT: 3001
-      PROXY_AUTH_WHITELIST: /api/*,/search/*
-    container_name: immich_app_proxy_1
+name: immich
 
-  server:
-    image: >-
-      ghcr.io/immich-app/immich-server:v1.112.1@sha256:c4e817f0eadbd9a6c2699cc884d5e7070428daec813c17db77d31fcca5b78ca6
+services:
+  immich-server:
+    container_name: immich_server
+    image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
+    # extends:
+    #   file: hwaccel.transcoding.yml
+    #   service: cpu # set to one of [nvenc, quicksync, rkmpp, vaapi, vaapi-wsl] for accelerated transcoding
     volumes:
-      - /mn7:/usr/src/app/upload
-    environment:
-      NODE_ENV: production
-      DB_HOSTNAME: immich_postgres_1
-      DB_USERNAME: immich
-      DB_PASSWORD: moneyprintergobrrr
-      DB_DATABASE_NAME: immich
-      REDIS_HOSTNAME: immich_redis_1
-      LOG_LEVEL: log
-      JWT_SECRET: ${APP_SEED}
-      DISABLE_REVERSE_GEOCODING: 'false'
-      REVERSE_GEOCODING_PRECISION: '3'
-      PUBLIC_LOGIN_PAGE_MESSAGE: ''
-      IMMICH_MACHINE_LEARNING_URL: http://immich_machine-learning_1:3003
+      # Do not edit the next line. If you want to change the media storage location on your system, edit the value of UPLOAD_LOCATION in the .env file
+      - ${UPLOAD_LOCATION}:/usr/src/app/upload
+      - /etc/localtime:/etc/localtime:ro
+    env_file:
+      - .env
+    ports:
+      - 2283:3001
     depends_on:
       - redis
-      - postgres
-    restart: on-failure
-    container_name: immich_server_1
+      - database
+    restart: always
+    healthcheck:
+      disable: false
 
-  machine-learning:
-    image: >-
-      ghcr.io/immich-app/immich-machine-learning:v1.112.1@sha256:9600eff5a66ae426293f00b171711bc1647c85cf966d759ee08ab2d05e0580b5
+  immich-machine-learning:
+    container_name: immich_machine_learning
+    # For hardware acceleration, add one of -[armnn, cuda, openvino] to the image tag.
+    # Example tag: ${IMMICH_VERSION:-release}-cuda
+    image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_VERSION:-release}
+    # extends: # uncomment this section for hardware acceleration - see https://immich.app/docs/features/ml-hardware-acceleration
+    #   file: hwaccel.ml.yml
+    #   service: cpu # set to one of [armnn, cuda, openvino, openvino-wsl] for accelerated inference - use the `-wsl` version for WSL2 where applicable
     volumes:
-      - ${APP_DATA_DIR}/data/model-cache:/cache
-    environment:
-      NODE_ENV: production
-      DB_HOSTNAME: immich_postgres_1
-      DB_USERNAME: immich
-      DB_PASSWORD: moneyprintergobrrr
-      DB_DATABASE_NAME: immich
-      REDIS_HOSTNAME: immich_redis_1
-      LOG_LEVEL: log
-      JWT_SECRET: ${APP_SEED}
-      DISABLE_REVERSE_GEOCODING: 'false'
-      REVERSE_GEOCODING_PRECISION: '3'
-      PUBLIC_LOGIN_PAGE_MESSAGE: ''
-      IMMICH_MACHINE_LEARNING_URL: http://immich_machine-learning_1:3003
-    restart: on-failure
-    container_name: immich_machine-learning_1
+      - model-cache:/cache
+    env_file:
+      - .env
+    restart: always
+    healthcheck:
+      disable: false
 
   redis:
-    image: >-
-      redis:6.2-alpine@sha256:70a7a5b641117670beae0d80658430853896b5ef269ccf00d1827427e3263fa3
-    user: '1000:1000'
-    restart: on-failure
-    volumes:
-      - ${APP_DATA_DIR}/data/redis:/data
-    container_name: immich_redis_1
+    container_name: immich_redis
+    image: docker.io/redis:6.2-alpine@sha256:e3b17ba9479deec4b7d1eeec1548a253acc5374d68d3b27937fcfe4df8d18c7e
+    healthcheck:
+      test: redis-cli ping || exit 1
+    restart: always
 
-  postgres:
-    image: >-
-      tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0
-    user: '1000:1000'
-    command:
-      - postgres
-      - '-c'
-      - shared_preload_libraries=vectors.so
-      - '-c'
-      - search_path="$$user", public, vectors
-      - '-c'
-      - logging_collector=on
-      - '-c'
-      - max_wal_size=2GB
-      - '-c'
-      - shared_buffers=512MB
-      - '-c'
-      - wal_compression=on
+  database:
+    container_name: immich_postgres
+    image: docker.io/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0
     environment:
-      NODE_ENV: production
-      DB_HOSTNAME: immich_postgres_1
-      DB_USERNAME: immich
-      DB_PASSWORD: moneyprintergobrrr
-      DB_DATABASE_NAME: immich
-      REDIS_HOSTNAME: immich_redis_1
-      LOG_LEVEL: log
-      JWT_SECRET: ${APP_SEED}
-      DISABLE_REVERSE_GEOCODING: 'false'
-      REVERSE_GEOCODING_PRECISION: '3'
-      PUBLIC_LOGIN_PAGE_MESSAGE: ''
-      IMMICH_MACHINE_LEARNING_URL: http://immich_machine-learning_1:3003
-      POSTGRES_PASSWORD: moneyprintergobrrr
-      POSTGRES_USER: immich
-      POSTGRES_DB: immich
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_DB: ${DB_DATABASE_NAME}
       POSTGRES_INITDB_ARGS: '--data-checksums'
     volumes:
-      - ${APP_DATA_DIR}/data/postgres:/var/lib/postgresql/data
-    restart: on-failure
-    container_name: immich_postgres_1
+      # Do not edit the next line. If you want to change the database storage location on your system, edit the value of DB_DATA_LOCATION in the .env file
+      - ${DB_DATA_LOCATION}:/var/lib/postgresql/data
+    healthcheck:
+      test: pg_isready --dbname='${DB_DATABASE_NAME}' --username='${DB_USERNAME}' || exit 1; Chksum="$$(psql --dbname='${DB_DATABASE_NAME}' --username='${DB_USERNAME}' --tuples-ointerval: 5m
+      start_interval: 30s
+      start_period: 5m
+    command: ["postgres", "-c", "shared_preload_libraries=vectors.so", "-c", 'search_path="$$user", public, vectors', "-c", "logging_collector=on", "-c", "max_wal_size=2GB", "-restart: always
+
+volumes:
+  model-cache:
