@@ -37,8 +37,8 @@ services:
         "/docker-entrypoint.sh",
       ]
     ports:
-      - 8001:80
-      - 8002:443
+      - 8001:8080
+      - 8002:4433
     #Alternatively for non-root images:
     # - 80:8080
     # - 443:4433
