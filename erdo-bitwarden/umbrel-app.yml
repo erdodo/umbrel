@@ -4,7 +4,7 @@ name: bitwarden
 tagline: password
 icon: https://www.gravatar.com/avatar/74ed5181b175c644204607ea65ff35de?s=120&r=g&d=404
 category: Password
-version: "1.0.0"
+version: "1.0.2"
 port: 8004
 description: >-
   Add your app's description here.

@@ -1,55 +1,178 @@
----
+version: '3'
 
 services:
-  bitwarden:
-    depends_on:
-      - db
+  mssql:
+    image: bitwarden/mssql:latest
+    container_name: bitwarden-mssql
+    restart: always
+    stop_grace_period: 60s
+    volumes:
+      - ../mssql/data:/var/opt/mssql/data
+      - ../logs/mssql:/var/opt/mssql/log
+      - ../mssql/backups:/etc/bitwarden/mssql/backups
     env_file:
-      - settings.env
-    image: bitwarden/self-host:dev
+      - mssql.env
+      - ../env/uid.env
+      - ../env/mssql.override.env
+
+  web:
+    image: bitwarden/web:latest
+    container_name: bitwarden-web
     restart: always
+    volumes:
+      - ../web:/etc/bitwarden/web
+    env_file:
+      - global.env
+      - ../env/uid.env
+
+  attachments:
+    image: bitwarden/attachments:latest
+    container_name: bitwarden-attachments
+    restart: always
+    volumes:
+      - ../core/attachments:/etc/bitwarden/core/attachments
+    env_file:
+      - global.env
+      - ../env/uid.env
+
+  api:
+    image: bitwarden/api:latest
+    container_name: bitwarden-api
+    restart: always
+    volumes:
+      - ../core:/etc/bitwarden/core
+      - ../ca-certificates:/etc/bitwarden/ca-certificates
+      - ../logs/api:/etc/bitwarden/logs
+    env_file:
+      - global.env
+      - ../env/uid.env
+      - ../env/global.override.env
+    networks:
+      - default
+      - public
+
+  identity:
+    image: bitwarden/identity:latest
+    container_name: bitwarden-identity
+    restart: always
+    volumes:
+      - ../identity:/etc/bitwarden/identity
+      - ../core:/etc/bitwarden/core
+      - ../ca-certificates:/etc/bitwarden/ca-certificates
+      - ../logs/identity:/etc/bitwarden/logs
+    env_file:
+      - global.env
+      - ../env/uid.env
+      - ../env/global.override.env
+    networks:
+      - default
+      - public
+
+  sso:
+    image: bitwarden/sso:latest
+    container_name: bitwarden-sso
+    restart: always
+    volumes:
+      - ../identity:/etc/bitwarden/identity
+      - ../core:/etc/bitwarden/core
+      - ../ca-certificates:/etc/bitwarden/ca-certificates
+      - ../logs/sso:/etc/bitwarden/logs
+    env_file:
+      - global.env
+      - ../env/uid.env
+      - ../env/global.override.env
+    networks:
+      - default
+      - public
+
+  admin:
+    image: bitwarden/admin:latest
+    container_name: bitwarden-admin
+    restart: always
+    depends_on:
+      - mssql
+    volumes:
+      - ../core:/etc/bitwarden/core
+      - ../ca-certificates:/etc/bitwarden/ca-certificates
+      - ../logs/admin:/etc/bitwarden/logs
+    env_file:
+      - global.env
+      - ../env/uid.env
+      - ../env/global.override.env
+    networks:
+      - default
+      - public
+
+  icons:
+    image: bitwarden/icons:latest
+    container_name: bitwarden-icons
+    restart: always
+    volumes:
+      - ../ca-certificates:/etc/bitwarden/ca-certificates
+      - ../logs/icons:/etc/bitwarden/logs
+    env_file:
+      - global.env
+      - ../env/uid.env
+    networks:
+      - default
+      - public
+
+  notifications:
+    image: bitwarden/notifications:latest
+    container_name: bitwarden-notifications
+    restart: always
+    volumes:
+      - ../ca-certificates:/etc/bitwarden/ca-certificates
+      - ../logs/notifications:/etc/bitwarden/logs
+    env_file:
+      - global.env
+      - ../env/uid.env
+      - ../env/global.override.env
+    networks:
+      - default
+      - public
+
+  events:
+    image: bitwarden/events:latest
+    container_name: bitwarden-events
+    restart: always
+    volumes:
+      - ../ca-certificates:/etc/bitwarden/ca-certificates
+      - ../logs/events:/etc/bitwarden/logs
+    env_file:
+      - global.env
+      - ../env/uid.env
+      - ../env/global.override.env
+    networks:
+      - default
+      - public
+
+  nginx:
+    image: bitwarden/nginx:latest
+    container_name: bitwarden-nginx
+    restart: always
+    depends_on:
+      - web
+      - admin
+      - api
+      - identity
     ports:
-      - "8004:8080"
-      - "4434:8443"
+      - '8004:8080'
+      - '4434:8443'
     volumes:
-      - bitwarden:/etc/bitwarden
-      - logs:/var/log/bitwarden
+      - ../nginx:/etc/bitwarden/nginx
+      - ../letsencrypt:/etc/letsencrypt
+      - ../ssl:/etc/ssl
+      - ../logs/nginx:/var/log/nginx
+    env_file:
+      - ../env/uid.env
+    networks:
+      - default
+      - public
 
-  # MariaDB Example
-  #db:
-   # environment:
-    #  MARIADB_USER: "bitwarden"
-    #  MARIADB_PASSWORD: "super_strong_password"
-    #  MARIADB_DATABASE: "bitwarden_vault"
-    #  MARIADB_RANDOM_ROOT_PASSWORD: "true"
-    #image: mariadb:10
-    #restart: always
-    #volumes:
-    #  - data:/var/lib/mysql
 
-  # PostgreSQL Example
-  db:
-    environment:
-      POSTGRES_USER: "bitwarden"
-      POSTGRES_PASSWORD: "super_strong_password"
-      POSTGRES_DB: "bitwarden_vault"
-    image: postgres:14
-    restart: always
-    volumes:
-      - data:/var/lib/postgresql/data
-
-  # MS SQL Server Example
-  # Docs: https://learn.microsoft.com/en-us/sql/linux/sql-server-linux-docker-container-deployment
-  # db:
-  #   environment:
-  #     MSSQL_SA_PASSWORD: "super_strong_password"
-  #     ACCEPT_EULA: Y
-  #   image: mcr.microsoft.com/mssql/server:2019-latest
-  #   restart: always
-  #   volumes:
-  #     - data:/var/opt/mssql
-
-volumes:
-  bitwarden:
-  logs:
-  data:
+networks:
+  default:
+    internal: true
+  public:
+    internal: false
