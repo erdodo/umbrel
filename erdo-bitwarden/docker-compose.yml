@@ -28,15 +28,15 @@ services:
     #  - data:/var/lib/mysql
 
   # PostgreSQL Example
-   db:
-     environment:
-       POSTGRES_USER: "bitwarden"
-       POSTGRES_PASSWORD: "super_strong_password"
-       POSTGRES_DB: "bitwarden_vault"
-     image: postgres:14
-     restart: always
-     volumes:
-       - data:/var/lib/postgresql/data
+  db:
+    environment:
+      POSTGRES_USER: "bitwarden"
+      POSTGRES_PASSWORD: "super_strong_password"
+      POSTGRES_DB: "bitwarden_vault"
+    image: postgres:14
+    restart: always
+    volumes:
+      - data:/var/lib/postgresql/data
 
   # MS SQL Server Example
   # Docs: https://learn.microsoft.com/en-us/sql/linux/sql-server-linux-docker-container-deployment
