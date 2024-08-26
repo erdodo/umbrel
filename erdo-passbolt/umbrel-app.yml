@@ -4,7 +4,7 @@ name: Passbolt
 tagline: password
 icon: https://avatars.githubusercontent.com/u/4386228?s=48&v=4
 category: Password
-version: "1.0.1"
+version: "1.0.3"
 port: 8001
 description: >-
   Password Manager
