@@ -1,0 +1,26 @@
+!
+! Title: Erdo blocklist
+! Description: Blocklist
+! Version: 1.0.4
+! Homepage: https://github.com/erdodo/iptv/edit/main/adguard.txt
+! Last modified: 2024-08-26T22:38:20.036Z
+!
+! Compiled by @erdodo
+!
+!
+! Source name: --
+! Source: https://raw.githubusercontent.com/erdodo/iptv/master/adguard.txt
+!
+! Title: Erdo blocklist
+! Updated: 2024-08-26T22:38:20.036Z
+! Expires: 1 day (update frequency)
+! Homepage: https://github.com/erdodo/iptv/edit/main/adguard.txt
+! License: https://github.com/erdodo/iptv/edit/main/adguard.txt
+! Source: https://github.com/erdodo/iptv/edit/main/adguard.txt
+||r.dizibox.cc^
+||cdn.flashtalking.com^
+||abs.yandex.ru^
+||cat.fr3.eu.criteo.com^
+||adclick.g.doubleclick.net^
+||doubleclick.net^
+||2mdn.net^
