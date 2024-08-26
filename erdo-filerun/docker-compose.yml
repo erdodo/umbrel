@@ -32,7 +32,7 @@ services:
       - tika
       - elasticsearch
     ports:
-      - "8081:80"
+      - "8082:80"
     volumes:
       - ./html:/var/www/html
       - ./user-files:/user-files

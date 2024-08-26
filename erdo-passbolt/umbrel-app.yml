@@ -1,18 +1,15 @@
 manifestVersion: 1
-id: sparkles-hello-world
-name: Hello World
-tagline: Replace this tagline with your app's tagline
-icon: https://svgur.com/i/mvA.svg
-category: Development
+id: erdo-passbolt
+name: Passbolt
+tagline: password
+icon: https://avatars.githubusercontent.com/u/4386228?s=48&v=4
+category: Password
 version: "1.0.0"
-port: 4000
+port: 8001
 description: >-
-  Add your app's description here.
+  Password Manager
 
-
-  You can also add newlines!
-
-developer: Umbrel
+developer: Erdo
 website: https://umbrel.com
 submitter: Umbrel
 submission: https://github.com/getumbrel/umbrel-hello-world-app
@@ -20,8 +17,7 @@ repo: https://github.com/getumbrel/umbrel-hello-world-app
 support: https://github.com/getumbrel/umbrel-hello-world-app/issues
 gallery:
   - https://i.imgur.com/yyVG0Jb.jpeg
-  - https://i.imgur.com/yyVG0Jb.jpeg
-  - https://i.imgur.com/yyVG0Jb.jpeg
+  - https://www.passbolt.com/videos/product_tour/share_with_granularity.mp4
 releaseNotes: >-
   Add what's new in the latest version of your app here.
 dependencies: []
