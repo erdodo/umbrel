@@ -2,7 +2,7 @@ manifestVersion: 1
 id: erdo-filerun
 name: File Run
 tagline: file
-icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAY1BMVEVZAJlVAJdbBZpTAJZOAJRIAJFfE5z59ftQAJSXd7zHt9rXzOXm3u7///9HAJCef8D8+v3c0ujRxOGGXbK6pdK3oM/r5PJoKqHf1uqRbbhmJKCkiMR1Q6ibe76MZLWsk8k7AIsHCqn5AAAAqklEQVR4AczOxQEDMQwEQMmWjveYuf8mwxznn3kKl/4DGyYHKyfq+QHTp0DDKD5JkKT0Ic1y3BVCb7TEg1/x+965V9Z13bRo1L5HyYCC9Zwn7oTeaY4+ZRFrjTC9swMwBmMMYLL0QQok6YwzoU8cLrP6gD+tlr5YKwuQS8DkogXQCDmxB6Bjcgo2IFFy4r0FssDdG3C2/ohTArG15MY4Tp4Pd9pg5BgciRQAnXAIkkKuQaQAAAAASUVORK5CYII=
+icon: https://avatars.githubusercontent.com/u/6422152?v=4
 category: File
 version: "1.0.0"
 port: 8082

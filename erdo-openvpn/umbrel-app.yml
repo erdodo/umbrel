@@ -2,7 +2,7 @@ manifestVersion: 1
 id: erdo-openvpn
 name: openvpn
 tagline: file
-icon: https://www.gravatar.com/avatar/faeb31d261caa0c629935dd0a8c984c6?s=120&r=g&d=404
+icon: https://usermanual.vtenext.com/uploads/images/gallery/2023-03/openvpn-logo.jpg
 category: File
 version: "1.0.0"
 port: 8081

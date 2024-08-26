@@ -3,6 +3,7 @@ id: erdo-immich
 category: files
 name: Immich
 version: "v1.112.1"
+icon: https://play-lh.googleusercontent.com/nJsRIdtaot1-FKH3kiRem4kjqUU1-_0hd_64qZH0BgtzUecYfWLCDfpk2nNVul8hOrw
 tagline: High-performance photo and video backup solution
 description: >-
   An open-source and high-performance self-hosted backup solution for the videos and photos on your mobile device

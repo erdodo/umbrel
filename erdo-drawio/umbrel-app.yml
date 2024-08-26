@@ -2,7 +2,7 @@ manifestVersion: 1
 id: erdo-drawio
 name: Drawio
 tagline: file
-icon: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAATlBMVEXwhwXwhgDwhQDvgQDxkCHym0T1sHP////5z6z4zajymD3+9+/vfQD62LzveQDvgAD3xJnwixD3wJH738f98uf0p2H50bD7487znkv3xp+60zMUAAAAlUlEQVR4Ac2RBRKEMBAEszscG9zt/w/FnXNvJFPpeNTnIW6h8w7GqcXAWWdKj4lzUg9Sn5XWIK3Hpb4i2XbEaV+bz0hyHc/3PcelMzIIRRGRhDjTMZK4rUYs0a4rA36S+l3008QHeOWyXGspMnSxEK3zbLGQAdASl9uQAWoZI9PLUgUyECxx2SyXVUfJ67hYdPA6/iUNgBwIDVtfx2oAAAAASUVORK5CYII=
+icon: https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToN_kqP1NpKwUB7yzCZp60aPrkutWzoEXVKA&s
 category: Draw
 version: "1.0.0"
 port: 8081
